@@ -28,7 +28,7 @@ namespace HelloAzure.Controllers
         }
 
         [HttpPost]  
-        publicActionResultUploadFile(HttpPostedFileBase file)  
+        public ActionResultUploadFile(HttpPostedFileBase file)  
         {  
             try  
             {  
