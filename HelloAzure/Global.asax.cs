@@ -18,5 +18,7 @@ namespace HelloAzure
             
             BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
+
+      
     }
 }

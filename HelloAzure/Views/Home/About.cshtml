@@ -1,24 +1,40 @@
-﻿@{
-    ViewBag.Title = "About";
+﻿@*@{
+        ViewBag.Title = "About";
+    }
+    <h2>@ViewBag.Title.</h2>
+    <h3>@ViewBag.Message</h3>
+
+    <p>Use this area to provide additional information.</p>
+
+    <h2>UploadFile</h2>
+
+    @using(Html.BeginForm("UploadFile","Home", FormMethod.Post, new { enctype="multipart/form-data"}))
+    {
+
+        <div>
+            @Html.TextBox("file", "", new {  type= "file"}) <br />
+
+            <input type="submit" value="Upload" />
+
+            @ViewBag.Message
+
+        </div>
+
+
+    }*@
+
+<h2>UploadFile</h2>
+
+@using (Html.BeginForm("About", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+
+    <div>
+        @Html.TextBox("file", "", new { type = "file" }) <br />
+
+        <input type="submit" value="Upload" />
+
+        @ViewBag.Message
+
+    </div>
 }
-<h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
 
-<p>Use this area to provide additional information.</p>
-
-<h2>UploadFile</h2>  
-   
-@using(Html.BeginForm("UploadFile","Upload", FormMethod.Post, new { enctype="multipart/form-data"}))  
-{  
-      
-    <div>  
-        @Html.TextBox("file", "", new {  type= "file"}) <br />  
-   
-        <input type="submit" value="Upload" />  
-   
-        @ViewBag.Message  
-   
-    </div>  
-      
-      
-}  

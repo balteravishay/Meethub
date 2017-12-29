@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.ApplicationInsights;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -9,6 +10,9 @@ namespace HelloAzure.Controllers
 {
     public class HomeController : Controller
     {
+        private TelemetryClient telemetry = new TelemetryClient();
+        private Scanner.Scanner scanner = Scanner.Scanner.Instance;
+
         public ActionResult Index()
         {
             return View();
@@ -16,7 +20,7 @@ namespace HelloAzure.Controllers
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
+            //ViewBag.Message = "Your application description page.";
 
             return View();
         }
@@ -29,22 +33,29 @@ namespace HelloAzure.Controllers
         }
 
         [HttpPost]  
-        public ActionResult UploadFile(HttpPostedFileBase file)  
+        public ActionResult About(HttpPostedFileBase file)  
         {  
             try  
             {  
                 if (file.ContentLength > 0)  
                 {  
                     string _FileName = Path.GetFileName(file.FileName);  
-                    string _path = Path.Combine(Server.MapPath("~/UploadedFiles"), _FileName);  
-                    file.SaveAs(_path);  
+                    string uploadedPath = Path.Combine(Server.MapPath("~/UploadedFiles"), _FileName);
+                    string scannedPath = Path.Combine(Server.MapPath("~/ScannedFiles"), _FileName);
+
+                    file.SaveAs(uploadedPath);
+                    scanner.ScanFile(uploadedPath, scannedPath);
                 }  
-                ViewBag.Message = "File Uploaded Successfully!!";  
-                return View();  
+                ViewBag.Message = "File Uploaded Successfully!!";
+                telemetry.TrackEvent(ViewBag.Message);
+
+                return View();
             }  
             catch  
             {  
-                ViewBag.Message = "File upload failed!!";  
+                ViewBag.Message = "File upload failed!!";
+                telemetry.TrackEvent(ViewBag.Message);
+
                 return View();  
             }  
         }  

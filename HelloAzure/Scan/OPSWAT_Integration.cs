@@ -4,7 +4,7 @@ using System.IO;
 using System.Net;
 using System.Text;
 
-namespace BULWARX_MD_REST_SAMPLE
+namespace HelloAzure.Scanner
 {
     class OPSWAT_Integration
     {
