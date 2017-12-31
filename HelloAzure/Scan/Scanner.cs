@@ -52,7 +52,7 @@ namespace HelloAzure.Scanner
         }
 
 
-        public bool ScanFile(string uploadPath, string scannedPath)
+        public bool ScanFile(string uploadPath)
         {
             bool response = false;
             // report the screen
@@ -74,6 +74,7 @@ namespace HelloAzure.Scanner
                     // print the block reason
                     if (!string.IsNullOrEmpty(blocked_reason))
                         telemetry.TrackTrace(string.Format(" >>> Reason: {0}", blocked_reason));
+                    File.Delete(uploadPath);
                     response = false;
                 }
 
@@ -81,29 +82,8 @@ namespace HelloAzure.Scanner
                 {
                     // results are false
                     telemetry.TrackTrace(string.Format(" >> File is allowed"));
-
-                    // file is sanitized
-                    if (output_file != null)
-                    {
-                        // report the screen
-                        telemetry.TrackTrace(string.Format("> Saving sanitized file to {0}", scannedPath));
-
-                        // create the file
-                        System.IO.FileStream fstream = System.IO.File.Create(scannedPath);
-
-                        // write the memory stream to the file
-                        output_file.WriteTo(fstream);
-
-                        // close and dispose the stream and file objects
-                        output_file.Close();
-                        fstream.Close();
-
-                        output_file.Dispose();
-                        fstream.Dispose();
-
-                        response = true;
-                    }
-
+                    response = true;
+                   
                     telemetry.TrackTrace(string.Format("\n - Process completed -"));
                 }
             }

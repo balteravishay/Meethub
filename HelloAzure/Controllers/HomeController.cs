@@ -41,19 +41,18 @@ namespace HelloAzure.Controllers
                 {  
                     string _FileName = Path.GetFileName(file.FileName);  
                     string uploadedPath = Path.Combine(Server.MapPath("~/UploadedFiles"), _FileName);
-                    string scannedPath = Path.Combine(Server.MapPath("~/ScannedFiles"), _FileName);
 
                     file.SaveAs(uploadedPath);
-                    scanner.ScanFile(uploadedPath, scannedPath);
+                    scanner.ScanFile(uploadedPath);
                 }  
                 ViewBag.Message = "File Uploaded Successfully!!";
                 telemetry.TrackEvent(ViewBag.Message);
 
                 return View();
             }  
-            catch  
+            catch  (Exception e)
             {  
-                ViewBag.Message = "File upload failed!!";
+                ViewBag.Message = "File upload failed!! " + e.Message;
                 telemetry.TrackEvent(ViewBag.Message);
 
                 return View();  
