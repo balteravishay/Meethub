@@ -39,8 +39,11 @@ namespace HelloAzure.Controllers
             {  
                 if (file.ContentLength > 0)  
                 {  
-                    string _FileName = Path.GetFileName(file.FileName);  
-                    string uploadedPath = Path.Combine(Server.MapPath("~/UploadedFiles"), _FileName);
+                    string _FileName = Path.GetFileName(file.FileName);
+                    var path = Server.MapPath("~/UploadedFiles");
+                    if (!Directory.Exists(path))
+                        Directory.CreateDirectory(path);
+                    string uploadedPath = Path.Combine(path, _FileName);
 
                     file.SaveAs(uploadedPath);
                     if (scanner.ScanFile(uploadedPath))
